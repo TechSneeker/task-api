@@ -16,9 +16,7 @@ public class UserService implements UserResource {
 
     @Override
     public User save(User json) {
-        return userRepository
-                .save(User.builder()
-                        .name(json.getName()).build());
+        return userRepository.save(json);
     }
 
     @Override
@@ -54,8 +52,13 @@ public class UserService implements UserResource {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<User> getAll() throws CustomException {
+        List<User> result = userRepository.findAll();
+
+        if (result.isEmpty())
+            throw new CustomException(HttpStatus.NO_CONTENT, "No results for users :(");
+
+        return result;
     }
 
     @Override

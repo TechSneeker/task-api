@@ -4,7 +4,6 @@ import br.com.tasks.taskapi.entity.User;
 import br.com.tasks.taskapi.exception.CustomException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface UserResource {
@@ -15,7 +14,7 @@ public interface UserResource {
 
     void delete(UUID id) throws CustomException;
 
-    List<User> getAll();
+    List<User> getAll() throws CustomException;
 
     User getById(UUID id) throws CustomException;
 
