@@ -14,9 +14,13 @@ public enum Status {
         this.value = value;
     }
 
-    public static Priority get(String value) {
-        return Arrays.stream(Priority.values())
-                .filter(priority -> priority.getValue()
+    public String getValue() {
+        return value;
+    }
+
+    public static Status get(String value) {
+        return Arrays.stream(Status.values())
+                .filter(status -> status.getValue()
                         .equalsIgnoreCase(value)).findAny().get();
     }
 }

@@ -14,9 +14,13 @@ public enum Category {
         this.value = value;
     }
 
-    public static Priority get(String value) {
-        return Arrays.stream(Priority.values())
-                .filter(priority -> priority.getValue()
+    public String getValue() {
+        return value;
+    }
+
+    public static Category get(String value) {
+        return Arrays.stream(Category.values())
+                .filter(category -> category.getValue()
                         .equalsIgnoreCase(value)).findAny().get();
     }
 }
