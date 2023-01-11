@@ -1,4 +1,4 @@
-package br.com.tasks.taskapi.exceptions;
+package br.com.tasks.taskapi.exception;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;
