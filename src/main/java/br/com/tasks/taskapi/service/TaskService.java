@@ -4,14 +4,18 @@ import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.TaskRepository;
 import br.com.tasks.taskapi.resource.TaskResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class TaskService implements TaskResource {
 
+    @Autowired
     TaskRepository taskRepository;
 
     @Override

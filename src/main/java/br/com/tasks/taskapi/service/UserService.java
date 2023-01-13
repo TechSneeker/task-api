@@ -4,14 +4,18 @@ import br.com.tasks.taskapi.entity.User;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.UserRepository;
 import br.com.tasks.taskapi.resource.UserResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class UserService implements UserResource {
 
+    @Autowired
     UserRepository userRepository;
 
     @Override

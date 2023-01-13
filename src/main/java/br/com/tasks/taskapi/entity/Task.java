@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "task")
 @Entity
 public class Task {
 
@@ -40,5 +41,5 @@ public class Task {
     private Priority priority;
 
     @OneToMany
-    private List<User> responsible;
+    private List<User> responsible = new ArrayList<>();
 }
