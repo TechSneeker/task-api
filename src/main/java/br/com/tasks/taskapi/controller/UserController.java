@@ -24,12 +24,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(test);
     }
 
-    @GetMapping(value = "/filter/{id}")
+    @GetMapping(value = "/filter")
     public ResponseEntity<User> getById(@RequestParam("id") UUID id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getById(id));
     }
 
-    @GetMapping(value = "/filter/{name}")
+    @GetMapping(value = "/filter")
     public ResponseEntity<User> getByName(@RequestParam("name") String name) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getByName(name));
     }
