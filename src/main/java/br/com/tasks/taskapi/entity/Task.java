@@ -22,6 +22,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @NotBlank(message = "cannot be blank.")
@@ -32,7 +33,7 @@ public class Task {
     private String description;
 
     @Column(name = "status")
-    private Status status;
+    private Status status = Status.TODO;
 
     @Column(name = "category", nullable = false)
     private Category category;

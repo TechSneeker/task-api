@@ -4,19 +4,29 @@ import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.TaskRepository;
 import br.com.tasks.taskapi.resource.TaskResource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TaskService implements TaskResource {
 
     @Autowired
     TaskRepository taskRepository;
+
+    @Autowired
+    private EntityManager entityManager;
+
+    ModelMapper mapper = new ModelMapper();
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Task save(Task json) {
@@ -25,23 +35,15 @@ public class TaskService implements TaskResource {
 
     @Override
     public Task update(UUID id, Task json) throws CustomException {
-        taskRepository.findById(id).orElseThrow(() ->
+        Task taskFound = taskRepository.findById(id).orElseThrow(() ->
                 new CustomException(HttpStatus.NOT_FOUND,
                         "This task wasn't found in the database :("));
 
-        Task taskUpdated = Task.builder()
-                .id(id)
-                .title(json.getTitle())
-                .description(json.getDescription())
-                .status(json.getStatus())
-                .category(json.getCategory())
-                .priority(json.getPriority())
-                .responsible(json.getResponsible())
-                .build();
+        BeanUtils.copyProperties(json, taskFound, Utils.getNullAttributes(json));
 
-        taskRepository.save(taskUpdated);
+        taskRepository.save(taskFound);
 
-        return taskUpdated;
+        return taskFound;
     }
 
     @Override
@@ -75,4 +77,6 @@ public class TaskService implements TaskResource {
                 new CustomException(HttpStatus.NOT_FOUND,
                         "This task wasn't found in the database :("));
     }
+
+
 }

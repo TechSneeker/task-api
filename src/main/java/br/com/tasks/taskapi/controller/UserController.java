@@ -20,16 +20,16 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() throws CustomException {
-        var test = userService.getAll();
-        return ResponseEntity.status(HttpStatus.OK).body(test);
+        List<User> users = userService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
-    @GetMapping(value = "/filter")
+    @GetMapping(value = "/filter/{id}")
     public ResponseEntity<User> getById(@RequestParam("id") UUID id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getById(id));
     }
 
-    @GetMapping(value = "/filter")
+    @GetMapping(value = "/filter/{name}")
     public ResponseEntity<User> getByName(@RequestParam("name") String name) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getByName(name));
     }
@@ -47,6 +47,7 @@ public class UserController {
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam("id") UUID id) throws CustomException {
         userService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User removed successfully :)");
+        return ResponseEntity.status(HttpStatus.OK).body("User removed successfully :)");
     }
+
 }

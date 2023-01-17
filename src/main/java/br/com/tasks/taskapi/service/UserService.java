@@ -4,6 +4,7 @@ import br.com.tasks.taskapi.entity.User;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.UserRepository;
 import br.com.tasks.taskapi.resource.UserResource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,19 +26,15 @@ public class UserService implements UserResource {
 
     @Override
     public User update(UUID id, User json) throws CustomException {
-        userRepository.findById(id).orElseThrow(() ->
+        User userFound = userRepository.findById(id).orElseThrow(() ->
                 new CustomException(HttpStatus.NOT_FOUND,
                         "This user wasn't found in the database :("));
 
-        User userUpdated = User.builder()
-                .id(id)
-                .name(json.getName())
-                .tasks(json.getTasks())
-                .build();
+        BeanUtils.copyProperties(json, userFound, Utils.getNullAttributes(json));
 
-        userRepository.save(userUpdated);
+        userRepository.save(userFound);
 
-        return userUpdated;
+        return userFound;
     }
 
     @Override
