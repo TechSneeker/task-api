@@ -25,7 +25,7 @@ public class Task {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotBlank(message = "cannot be blank.")
+    @NotBlank(message = "The title cannot be blank.")
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -41,6 +41,10 @@ public class Task {
     @Column(name = "priority", nullable = false)
     private Priority priority;
 
-    @OneToMany
+    @ManyToMany
     private List<User> responsible = new ArrayList<>();
+
+    public void assign(User user) {
+        this.responsible.add(user);
+    }
 }
