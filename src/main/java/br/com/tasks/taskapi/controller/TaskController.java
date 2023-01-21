@@ -2,6 +2,7 @@ package br.com.tasks.taskapi.controller;
 
 import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.entity.User;
+import br.com.tasks.taskapi.entity.enums.Status;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.service.TaskService;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,9 +27,15 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
-    @GetMapping(value = "/filter/{id}")
+    @GetMapping(value = "/filter", params = "id")
     public ResponseEntity<Task> getById(@RequestParam("id") UUID id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(taskService.getById(id));
+    }
+
+    @GetMapping(value = "/filter", params = "status")
+    public ResponseEntity<List<Task>> getByStatus(@RequestParam("status") String status) throws CustomException {
+        List<Task> tasks = taskService.getByStatus(status);
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
     @PostMapping

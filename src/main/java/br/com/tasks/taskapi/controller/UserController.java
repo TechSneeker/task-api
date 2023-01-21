@@ -24,12 +24,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
-    @GetMapping(value = "/filter/{id}")
+    @GetMapping(value = "/filter", params = "id")
     public ResponseEntity<User> getById(@RequestParam("id") UUID id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getById(id));
     }
 
-    @GetMapping(value = "/filter/{name}")
+    @GetMapping(value = "/filter", params = "name")
     public ResponseEntity<User> getByName(@RequestParam("name") String name) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getByName(name));
     }
@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(json));
     }
 
-    @PutMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable("id") UUID id, @RequestBody User json) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, json));
     }

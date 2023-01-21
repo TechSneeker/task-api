@@ -1,6 +1,7 @@
 package br.com.tasks.taskapi.resource;
 
 import br.com.tasks.taskapi.entity.Task;
+import br.com.tasks.taskapi.entity.enums.Status;
 import br.com.tasks.taskapi.exception.CustomException;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface TaskResource {
     void delete(UUID id) throws CustomException;
 
     List<Task> getAll() throws CustomException;
+
+    List<Task> getByStatus(String status) throws CustomException;
 
     Task getById(UUID id) throws CustomException;
 
