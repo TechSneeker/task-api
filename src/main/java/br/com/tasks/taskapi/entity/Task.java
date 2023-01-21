@@ -53,4 +53,8 @@ public class Task {
     public void assign(User user) {
         this.responsible.add(user);
     }
+
+    public void unassign(User user) {
+        this.responsible.remove(user);
+    }
 }

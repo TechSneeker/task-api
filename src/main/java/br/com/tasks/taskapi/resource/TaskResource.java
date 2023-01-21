@@ -19,4 +19,6 @@ public interface TaskResource {
     Task getById(UUID id) throws CustomException;
 
     void assign(UUID taskId, UUID userId) throws CustomException;
+
+    void unassign(UUID taskId, UUID userId) throws CustomException;
 }

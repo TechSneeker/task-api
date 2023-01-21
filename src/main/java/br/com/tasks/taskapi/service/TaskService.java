@@ -54,6 +54,18 @@ public class TaskService implements TaskResource {
     }
 
     @Override
+    public void unassign(UUID taskId, UUID userId) throws CustomException {
+        Task taskFound = taskRepository.findById(taskId).orElseThrow(() ->
+                new CustomException(HttpStatus.NOT_FOUND, "This task wasn't found in the database :("));
+
+        User userFound = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(HttpStatus.NOT_FOUND, "This user wasn't found in the database :("));
+
+        taskFound.unassign(userFound);
+        taskRepository.save(taskFound);
+    }
+
+    @Override
     public void delete(UUID id) throws CustomException {
         taskRepository.findById(id).orElseThrow(() ->
                 new CustomException(HttpStatus.NOT_FOUND,

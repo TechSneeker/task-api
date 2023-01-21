@@ -49,6 +49,14 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping(value = "/unassign/")
+    public ResponseEntity<?> unassign(@RequestParam("taskId") UUID taskId,
+                                      @RequestParam("userId") UUID userId) throws CustomException {
+
+        taskService.unassign(taskId, userId);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam("id") UUID id) throws CustomException {
         taskService.delete(id);
