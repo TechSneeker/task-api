@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ControllerAdvice
@@ -35,7 +35,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> launcherConstraintViolationException(ConstraintViolationException ex) {
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
 
         ex.getConstraintViolations().forEach((field) ->
                 map.put(field.getPropertyPath().toString(), field.getMessageTemplate()));
@@ -60,5 +60,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(exception, headers, status);
     }
-
 }

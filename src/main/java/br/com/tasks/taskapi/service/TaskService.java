@@ -1,13 +1,12 @@
 package br.com.tasks.taskapi.service;
 
 import br.com.tasks.taskapi.entity.Task;
+import br.com.tasks.taskapi.entity.User;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.TaskRepository;
+import br.com.tasks.taskapi.repository.UserRepository;
 import br.com.tasks.taskapi.resource.TaskResource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +21,7 @@ public class TaskService implements TaskResource {
     TaskRepository taskRepository;
 
     @Autowired
-    private EntityManager entityManager;
-
-    ModelMapper mapper = new ModelMapper();
-
-    ObjectMapper objectMapper = new ObjectMapper();
+    UserRepository userRepository;
 
     @Override
     public Task save(Task json) {
@@ -44,6 +39,18 @@ public class TaskService implements TaskResource {
         taskRepository.save(taskFound);
 
         return taskFound;
+    }
+
+    @Override
+    public void assign(UUID taskId, UUID userId) throws CustomException {
+        Task taskFound = taskRepository.findById(taskId).orElseThrow(() ->
+                new CustomException(HttpStatus.NOT_FOUND, "This task wasn't found in the database :("));
+
+        User userFound = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(HttpStatus.NOT_FOUND, "This user wasn't found in the database :("));
+
+        taskFound.assign(userFound);
+        taskRepository.save(taskFound);
     }
 
     @Override
@@ -77,6 +84,5 @@ public class TaskService implements TaskResource {
                 new CustomException(HttpStatus.NOT_FOUND,
                         "This task wasn't found in the database :("));
     }
-
 
 }

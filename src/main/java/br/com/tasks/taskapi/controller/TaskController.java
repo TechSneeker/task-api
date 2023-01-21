@@ -36,9 +36,17 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.save(json));
     }
 
-    @PatchMapping(value = "/patch/{id}")
+    @PatchMapping(value = "/update/{id}")
     public ResponseEntity<Task> update(@PathVariable("id") UUID id, @RequestBody Task json) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(taskService.update(id, json));
+    }
+
+    @PatchMapping(value = "/assign/")
+    public ResponseEntity<?> assign(@RequestParam("taskId") UUID taskId,
+                                    @RequestParam("userId") UUID userId) throws CustomException {
+
+        taskService.assign(taskId, userId);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping

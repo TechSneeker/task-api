@@ -3,6 +3,7 @@ package br.com.tasks.taskapi.entity;
 import br.com.tasks.taskapi.entity.enums.Category;
 import br.com.tasks.taskapi.entity.enums.Priority;
 import br.com.tasks.taskapi.entity.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -29,6 +30,7 @@ public class Task {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @NotBlank(message = "The description cannot be blank.")
     @Column(name = "description")
     private String description;
 
@@ -41,7 +43,11 @@ public class Task {
     @Column(name = "priority", nullable = false)
     private Priority priority;
 
-    @ManyToMany
+    @ManyToMany()
+    @JsonIgnoreProperties(value = "tasks")
+    @JoinTable(name = "task_user",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> responsible = new ArrayList<>();
 
     public void assign(User user) {
