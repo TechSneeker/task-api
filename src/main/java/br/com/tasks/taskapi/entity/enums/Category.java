@@ -1,6 +1,11 @@
 package br.com.tasks.taskapi.entity.enums;
 
+import br.com.tasks.taskapi.exception.CustomException;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum Category {
     FEATURE("FEATURE"),
@@ -18,9 +23,14 @@ public enum Category {
         return value;
     }
 
-    public static Category get(String value) {
-        return Arrays.stream(Category.values())
-                .filter(category -> category.getValue()
-                        .equalsIgnoreCase(value)).findAny().get();
+    public static Category get(String value) throws CustomException {
+
+        try {
+            return Arrays.stream(Category.values()).filter(category ->
+                    StringUtils.containsIgnoreCase(category.getValue(), value)).findAny().get();
+        } catch (NoSuchElementException ex) {
+            throw new CustomException(HttpStatus.BAD_REQUEST,
+                    "Unexpected value. expected: [FEATURE,IMPROVEMENT,REFACTOR,BUG]");
+        }
     }
 }

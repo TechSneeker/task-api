@@ -19,6 +19,8 @@ public interface TaskResource {
 
     List<Task> getByStatus(String status) throws CustomException;
 
+    List<Task> getByCategory(String category) throws CustomException;
+
     Task getById(UUID id) throws CustomException;
 
     void assign(UUID taskId, UUID userId) throws CustomException;

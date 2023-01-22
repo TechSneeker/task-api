@@ -2,6 +2,7 @@ package br.com.tasks.taskapi.service;
 
 import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.entity.User;
+import br.com.tasks.taskapi.entity.enums.Category;
 import br.com.tasks.taskapi.entity.enums.Status;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.TaskRepository;
@@ -93,10 +94,21 @@ public class TaskService implements TaskResource {
 
     @Override
     public List<Task> getByStatus(String status) throws CustomException {
-
         Status statusValue = Status.get(status);
 
         List<Task> result = taskRepository.findByStatus(statusValue);
+
+        if (result.isEmpty())
+            throw new CustomException(HttpStatus.NO_CONTENT, "No results for your search :(");
+
+        return result;
+    }
+
+    @Override
+    public List<Task> getByCategory(String category) throws CustomException {
+        Category categoryValue = Category.get(category);
+
+        List<Task> result = taskRepository.findByCategory(categoryValue);
 
         if (result.isEmpty())
             throw new CustomException(HttpStatus.NO_CONTENT, "No results for your search :(");

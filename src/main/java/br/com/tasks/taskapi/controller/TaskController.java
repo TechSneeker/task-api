@@ -2,6 +2,7 @@ package br.com.tasks.taskapi.controller;
 
 import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.entity.User;
+import br.com.tasks.taskapi.entity.enums.Category;
 import br.com.tasks.taskapi.entity.enums.Status;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.service.TaskService;
@@ -35,6 +36,12 @@ public class TaskController {
     @GetMapping(value = "/filter", params = "status")
     public ResponseEntity<List<Task>> getByStatus(@RequestParam("status") String status) throws CustomException {
         List<Task> tasks = taskService.getByStatus(status);
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
+    }
+
+    @GetMapping(value = "/filter", params = "category")
+    public ResponseEntity<List<Task>> getByCategory(@RequestParam("category") String category) throws CustomException {
+        List<Task> tasks = taskService.getByCategory(category);
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
