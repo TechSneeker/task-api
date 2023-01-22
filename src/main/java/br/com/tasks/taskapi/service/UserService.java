@@ -57,7 +57,8 @@ public class UserService implements UserResource {
         List<User> result = userRepository.findAll();
 
         if (result.isEmpty())
-            throw new CustomException(HttpStatus.NO_CONTENT, "No results for users :(");
+            throw new CustomException(HttpStatus.NO_CONTENT,
+                    "No results for users :(");
 
         return result;
     }

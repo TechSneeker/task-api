@@ -3,6 +3,7 @@ package br.com.tasks.taskapi.service;
 import br.com.tasks.taskapi.entity.Task;
 import br.com.tasks.taskapi.entity.User;
 import br.com.tasks.taskapi.entity.enums.Category;
+import br.com.tasks.taskapi.entity.enums.Priority;
 import br.com.tasks.taskapi.entity.enums.Status;
 import br.com.tasks.taskapi.exception.CustomException;
 import br.com.tasks.taskapi.repository.TaskRepository;
@@ -46,10 +47,12 @@ public class TaskService implements TaskResource {
     @Override
     public void assign(UUID taskId, UUID userId) throws CustomException {
         Task taskFound = taskRepository.findById(taskId).orElseThrow(() ->
-                new CustomException(HttpStatus.NOT_FOUND, "This task wasn't found in the database :("));
+                new CustomException(HttpStatus.NOT_FOUND,
+                        "This task wasn't found in the database :("));
 
         User userFound = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(HttpStatus.NOT_FOUND, "This user wasn't found in the database :("));
+                new CustomException(HttpStatus.NOT_FOUND,
+                        "This user wasn't found in the database :("));
 
         taskFound.assign(userFound);
         taskRepository.save(taskFound);
@@ -58,10 +61,12 @@ public class TaskService implements TaskResource {
     @Override
     public void unassign(UUID taskId, UUID userId) throws CustomException {
         Task taskFound = taskRepository.findById(taskId).orElseThrow(() ->
-                new CustomException(HttpStatus.NOT_FOUND, "This task wasn't found in the database :("));
+                new CustomException(HttpStatus.NOT_FOUND,
+                        "This task wasn't found in the database :("));
 
         User userFound = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(HttpStatus.NOT_FOUND, "This user wasn't found in the database :("));
+                new CustomException(HttpStatus.NOT_FOUND,
+                        "This user wasn't found in the database :("));
 
         taskFound.unassign(userFound);
         taskRepository.save(taskFound);
@@ -87,7 +92,8 @@ public class TaskService implements TaskResource {
         List<Task> result = taskRepository.findAll();
 
         if (result.isEmpty())
-            throw new CustomException(HttpStatus.NO_CONTENT, "No results for your search :(");
+            throw new CustomException(HttpStatus.NO_CONTENT,
+                    "No results for your search :(");
 
         return result;
     }
@@ -99,7 +105,8 @@ public class TaskService implements TaskResource {
         List<Task> result = taskRepository.findByStatus(statusValue);
 
         if (result.isEmpty())
-            throw new CustomException(HttpStatus.NO_CONTENT, "No results for your search :(");
+            throw new CustomException(HttpStatus.NO_CONTENT,
+                    "No results for your search :(");
 
         return result;
     }
@@ -111,7 +118,21 @@ public class TaskService implements TaskResource {
         List<Task> result = taskRepository.findByCategory(categoryValue);
 
         if (result.isEmpty())
-            throw new CustomException(HttpStatus.NO_CONTENT, "No results for your search :(");
+            throw new CustomException(HttpStatus.NO_CONTENT,
+                    "No results for your search :(");
+
+        return result;
+    }
+
+    @Override
+    public List<Task> getByPriority(String priority) throws CustomException {
+        Priority priorityValue = Priority.get(priority);
+
+        List<Task> result  = taskRepository.findByPriority(priorityValue);
+
+        if (result.isEmpty())
+            throw new CustomException(HttpStatus.NO_CONTENT,
+                    "No results for your search :(");
 
         return result;
     }

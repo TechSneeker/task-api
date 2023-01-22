@@ -45,6 +45,12 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
+    @GetMapping(value = "/filter", params = "priority")
+    public ResponseEntity<List<Task>> getByPriority(@RequestParam("priority") String priority) throws CustomException {
+        List<Task> tasks = taskService.getByPriority(priority);
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
+    }
+
     @PostMapping
     public ResponseEntity<Task> save(@RequestBody Task json) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.save(json));
